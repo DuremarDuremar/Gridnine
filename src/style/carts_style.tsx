@@ -13,8 +13,22 @@ export const Card = styled.div`
 `;
 
 export const Title = styled.div`
+  padding: 3px 5px;
   background-color: #4286f4;
+  color: #f9f9fd;
+  display: flex;
+  justify-content: space-between;
+  h5 {
+    font-weight: 400;
+    font-size: 13px;
+    text-align: right;
+  }
+  p {
+    font-size: 9px;
+  }
 `;
+
+export const Logo = styled.div``;
 
 export const Info = styled.div``;
 

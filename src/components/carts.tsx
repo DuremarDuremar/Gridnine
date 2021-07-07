@@ -1,9 +1,11 @@
 import React, { FC, useState, useEffect } from "react";
 import _sortby from "lodash.sortby";
+import _chunk from "lodash.chunk";
 import _map from "lodash.map";
 
-import { Content, Card, Title, Button, Info } from "../style/carts_style";
+import { Content, Card, Title, Button, Info, Logo } from "../style/carts_style";
 import { IForm } from "../app";
+import { air } from "../assets/svg";
 
 interface IProps {
   items: any;
@@ -12,18 +14,17 @@ interface IProps {
 
 const Carts: FC<IProps> = ({ items, form }) => {
   const [cards, setCards] = useState<any | null>(null);
+  const [pag, setPag] = useState<number>(0);
 
   // console.log(form);
 
   useEffect(() => {
     if (items) {
       const res = items.flights.map((item: any) => {
-        console.log(items);
-
         return item.flight;
       });
 
-      setCards(res);
+      setCards(_chunk(res, 12));
     }
   }, [items]);
 
@@ -42,10 +43,19 @@ const Carts: FC<IProps> = ({ items, form }) => {
   if (cards) {
     return (
       <Content>
-        {cards.map((item: any, index: number) => {
+        {cards[pag].map((item: any, index: number) => {
           return (
             <Card key={index}>
-              <Title>{item.price.passengerPrices[0].total.amount}</Title>
+              <Title>
+                <Logo>{air}</Logo>
+                <div>
+                  <h5>
+                    {parseInt(item.price.passengerPrices[0].total.amount)}{" "}
+                    &#8381;
+                  </h5>
+                  <p>Стоимость для одного взрослого пассажира</p>
+                </div>
+              </Title>
               <Info>1</Info>
               <Button>2</Button>
             </Card>
