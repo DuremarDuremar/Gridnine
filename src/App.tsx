@@ -1,6 +1,4 @@
 import React, { FC, useState, useEffect } from "react";
-import axios from "axios";
-import data from "./data/flights.json";
 import Options from "./components/options";
 import Carts from "./components/carts";
 import Server from "./data/axios";

@@ -32,4 +32,11 @@ export const Price = styled.div`
     padding: 2px 0 2px 5px;
   }
 `;
-export const Air = styled.div``;
+export const Air = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  input {
+    margin-top: 8px;
+  }
+`;

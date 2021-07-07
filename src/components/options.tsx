@@ -8,11 +8,11 @@ interface IProps {
 const Options: FC<IProps> = ({ items }) => {
   const air = items
     ? [
-        ...Array.from([
-          new Set(
+        ...Array.from(
+          new Set<string>(
             items.flights.map((item: any) => item.flight.carrier.caption)
-          ),
-        ]),
+          ).values()
+        ),
       ]
     : null;
 
@@ -26,7 +26,9 @@ const Options: FC<IProps> = ({ items }) => {
   //     return null;
   //   }
   // };
-  console.log(air);
+  if (air) {
+    console.log(air);
+  }
 
   return (
     <Content>
@@ -48,28 +50,35 @@ const Options: FC<IProps> = ({ items }) => {
       <Filter>
         <h2>Фильтровать</h2>
         <label htmlFor="true">
-          <input type="checkbox" name="filter" id="true" /> -{" "}
-          <span>1 пересадка</span>
+          <input type="checkbox" id="true" /> - <span>1 пересадка</span>
         </label>
         <label htmlFor="false">
-          <input type="checkbox" name="filter" id="false" /> -{" "}
-          <span>без пересадок</span>
+          <input type="checkbox" id="false" /> - <span>без пересадок</span>
         </label>
       </Filter>
       <Price>
         <h2>Цена</h2>
         <label htmlFor="after">
           <span>От </span>
-          <input type="text" id="after" />
+          <input type="number" id="after" />
         </label>
         <br />
         <label htmlFor="before">
           <span>До </span>
-          <input type="text" id="before" />
+          <input type="number" id="before" />
         </label>
       </Price>
       <Air>
         <h2>Авиакомпании</h2>
+        {items &&
+          air?.map((item, index) => {
+            return (
+              <label key={index} htmlFor={item}>
+                <input type="checkbox" value={item} id={item} /> -{" "}
+                <span>{item}</span>
+              </label>
+            );
+          })}
       </Air>
     </Content>
   );
