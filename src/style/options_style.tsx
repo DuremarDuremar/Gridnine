@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Content = styled.section`
+export const Content = styled.form`
   h2 {
     font-size: 14px;
   }
@@ -11,15 +11,15 @@ export const Content = styled.section`
   input {
     cursor: pointer;
   }
-  form {
+  > div {
     display: flex;
     flex-direction: column;
   }
   margin: 0px auto;
 `;
 
-export const Sort = styled.form``;
-export const Filter = styled.form``;
+export const Sort = styled.div``;
+export const Filter = styled.div``;
 export const Price = styled.div`
   span {
     width: 20px;
