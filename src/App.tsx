@@ -6,17 +6,23 @@ import { Global, Content } from "./style/app_style";
 
 export type IForm = {
   sort: string;
-  filter: string;
+  filter: string[] | null[];
   priceA: number | null;
   priceB: number | null;
-  air: string;
+  air: string[] | null[];
 };
 
 const dataServer = new Server();
 
 const App: FC = () => {
   const [items, setItems] = useState<any>(null);
-  const [form, setForm] = useState<IForm | null>(null);
+  const [form, setForm] = useState<IForm>({
+    air: [],
+    filter: [],
+    priceA: NaN,
+    priceB: NaN,
+    sort: "1",
+  });
 
   useEffect(() => {
     dataServer.getServer().then((data: any) => {
@@ -29,7 +35,7 @@ const App: FC = () => {
       <Global />
       <Content>
         <Options items={items} form={form} setForm={setForm} />
-        <Carts />
+        <Carts items={items} form={form} />
       </Content>
     </>
   );

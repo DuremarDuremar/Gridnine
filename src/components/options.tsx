@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 
 import { IForm } from "../app";
@@ -6,8 +6,8 @@ import { Content, Sort, Filter, Price, Air } from "../style/options_style";
 
 interface IProps {
   items: any;
-  form: IForm | null;
-  setForm: React.Dispatch<React.SetStateAction<IForm | null>>;
+  form: IForm;
+  setForm: React.Dispatch<React.SetStateAction<IForm>>;
 }
 
 const Options: FC<IProps> = ({ items, form, setForm }) => {
@@ -22,8 +22,6 @@ const Options: FC<IProps> = ({ items, form, setForm }) => {
         ),
       ]
     : null;
-
-  console.log(form);
 
   if (items) {
     return (
