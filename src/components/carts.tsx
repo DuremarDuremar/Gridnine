@@ -29,7 +29,7 @@ const Carts: FC<IProps> = ({ items, form }) => {
   const [cards, setCards] = useState<any | null>(null);
   const [numeric, setNumeric] = useState<number>(2);
 
-  console.log(form.sort);
+  // console.log(form.sort);
 
   const getTimeFromMins = (mins: number) => {
     let hours = Math.trunc(mins / 60);
@@ -103,7 +103,7 @@ const Carts: FC<IProps> = ({ items, form }) => {
     }
   }, [items, numeric, form]);
 
-  console.log(cards);
+  // console.log(cards);
 
   if (cards) {
     return (

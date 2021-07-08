@@ -5,25 +5,14 @@ import { IForm } from "../app";
 import { Content, Sort, Filter, Price, Air } from "../style/options_style";
 
 interface IProps {
-  items: any;
-  form: IForm;
+  airItems: string[] | null;
   setForm: React.Dispatch<React.SetStateAction<IForm>>;
 }
 
-const Options: FC<IProps> = ({ items, form, setForm }) => {
+const Options: FC<IProps> = ({ airItems, setForm }) => {
   const { register, watch, handleSubmit } = useForm<IForm>();
 
-  const air = items
-    ? [
-        ...Array.from(
-          new Set<string>(
-            items.flights.map((item: any) => item.flight.carrier.caption)
-          ).values()
-        ),
-      ]
-    : null;
-
-  if (items) {
+  if (airItems) {
     return (
       <Content onSubmit={handleSubmit((data) => setForm(data))}>
         <Sort>
@@ -90,7 +79,7 @@ const Options: FC<IProps> = ({ items, form, setForm }) => {
         </Price>
         <Air>
           <h2>Авиакомпании</h2>
-          {air?.map((item, index) => {
+          {airItems?.map((item, index) => {
             return (
               <label key={index} htmlFor={item}>
                 <input

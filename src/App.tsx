@@ -16,6 +16,7 @@ const dataServer = new Server();
 
 const App: FC = () => {
   const [items, setItems] = useState<any>(null);
+  const [airItems, setairItems] = useState<string[] | null>(null);
   const [form, setForm] = useState<IForm>({
     air: [],
     filter: [],
@@ -24,7 +25,7 @@ const App: FC = () => {
     sort: "1",
   });
 
-  console.log(form);
+  // console.log(form);
 
   useEffect(() => {
     dataServer.getServer().then((data: any) => {
@@ -32,11 +33,33 @@ const App: FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (items) {
+      setairItems([
+        ...Array.from(
+          new Set<string>(
+            items.flights.map((item: any) => item.flight.carrier.caption)
+          ).values()
+        ),
+      ]);
+    }
+  }, [items]);
+
+  // const airItems = items
+  //   ? [
+  //       ...Array.from(
+  //         new Set<string>(
+  //           items.flights.map((item: any) => item.flight.carrier.caption)
+  //         ).values()
+  //       ),
+  //     ]
+  //   : null;
+
   return (
     <>
       <Global />
       <Content>
-        <Options items={items} form={form} setForm={setForm} />
+        <Options airItems={airItems} setForm={setForm} />
         <Carts items={items} form={form} />
       </Content>
     </>
