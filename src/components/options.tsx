@@ -17,13 +17,14 @@ interface IProps {
   airItems: string[] | null;
   setForm: React.Dispatch<React.SetStateAction<IForm>>;
   form: IForm;
+  setNumeric: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Options: FC<IProps> = ({ airItems, setForm, form }) => {
+const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
   const { register, handleSubmit, watch, reset } = useForm<IForm>();
 
-  console.log(form);
-  console.log(watch());
+  // console.log(form);
+  // console.log(watch());
 
   if (airItems) {
     return (
@@ -72,20 +73,22 @@ const Options: FC<IProps> = ({ airItems, setForm, form }) => {
         </Filter>
         <Price>
           <h2>Цена</h2>
-          <label htmlFor="priceA">
-            <span>От </span>
-            <input
-              type="number"
-              {...register("priceA", { valueAsNumber: true })}
-              id="priceA"
-            />
-          </label>
+
+          <input
+            type="number"
+            {...register("priceA", { valueAsNumber: true })}
+            id="priceA"
+            placeholder="от"
+          />
 
           <Buttons>
             <button onClick={handleSubmit(() => setForm(defaultForm))}>
               <i
                 className="fas fa-times"
-                onClick={() => reset(defaultForm)}
+                onClick={() => {
+                  reset(defaultForm);
+                  setNumeric(2);
+                }}
               ></i>
             </button>
             <button type="submit">
@@ -93,14 +96,12 @@ const Options: FC<IProps> = ({ airItems, setForm, form }) => {
             </button>
           </Buttons>
 
-          <label htmlFor="priceB">
-            <span>До </span>
-            <input
-              type="number"
-              {...register("priceB", { valueAsNumber: true })}
-              id="priceB"
-            />
-          </label>
+          <input
+            type="number"
+            {...register("priceB", { valueAsNumber: true })}
+            id="priceB"
+            placeholder="до"
+          />
         </Price>
         <Air>
           <h2>Авиакомпании</h2>

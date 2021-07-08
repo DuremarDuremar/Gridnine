@@ -139,10 +139,16 @@ const App: FC = () => {
     <>
       <Global />
       <Content>
-        <Options airItems={airItems} setForm={setForm} form={form} />
+        <Options
+          airItems={airItems}
+          setForm={setForm}
+          form={form}
+          setNumeric={setNumeric}
+        />
         <Carts
           cards={cards ? cards.slice(0, numeric) : cards}
           setNumeric={setNumeric}
+          numeric={numeric}
         />
       </Content>
     </>

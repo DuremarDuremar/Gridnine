@@ -21,11 +21,6 @@ export const Content = styled.form`
 export const Sort = styled.div``;
 export const Filter = styled.div``;
 export const Price = styled.div`
-  span {
-    width: 20px;
-    display: inline-block;
-    font-size: 10px;
-  }
   input {
     border: 1px solid rgb(0, 0, 0, 0.5);
     max-width: 130px;
@@ -55,7 +50,7 @@ export const Buttons = styled.div`
   background: -webkit-linear-gradient(to right, #dd3e54, #6be585);
   background: linear-gradient(to right, #dd3e54, #6be585);
   max-width: 135px;
-  margin-left: 20px;
+  border: 1px solid black;
 
   button {
     background: transparent;

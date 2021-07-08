@@ -19,9 +19,10 @@ import Spinner from "./spinner";
 interface IProps {
   cards: any;
   setNumeric: React.Dispatch<React.SetStateAction<number>>;
+  numeric: number;
 }
 
-const Carts: FC<IProps> = ({ cards, setNumeric }) => {
+const Carts: FC<IProps> = ({ cards, setNumeric, numeric }) => {
   const getTimeFromMins = (mins: number) => {
     let hours = Math.trunc(mins / 60);
     let minutes = mins % 60;
@@ -163,7 +164,11 @@ const Carts: FC<IProps> = ({ cards, setNumeric }) => {
             );
           })}
         </Cards>
-        <More onClick={() => setNumeric((prev) => prev + 2)}>Показать еще</More>
+        {numeric <= cards.length && (
+          <More onClick={() => setNumeric((prev) => prev + 2)}>
+            Показать еще
+          </More>
+        )}
       </Content>
     );
   } else {
