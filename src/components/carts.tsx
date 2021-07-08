@@ -1,7 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
-import _sortby from "lodash.sortby";
-import _chunk from "lodash.chunk";
-import _map from "lodash.map";
+import React, { FC } from "react";
 
 import {
   Content,
@@ -16,94 +13,19 @@ import {
   Sity,
   More,
 } from "../style/carts_style";
-import { IForm } from "../app";
 import { air } from "../assets/svg";
-import { inflate } from "zlib";
 
 interface IProps {
-  items: any;
-  form: IForm;
+  cards: any;
+  setNumeric: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Carts: FC<IProps> = ({ items, form }) => {
-  const [cards, setCards] = useState<any | null>(null);
-  const [numeric, setNumeric] = useState<number>(2);
-
-  // console.log(form.sort);
-
+const Carts: FC<IProps> = ({ cards, setNumeric }) => {
   const getTimeFromMins = (mins: number) => {
     let hours = Math.trunc(mins / 60);
     let minutes = mins % 60;
     return hours + "ч " + minutes + "мин";
   };
-
-  useEffect(() => {
-    if (items) {
-      let res = items.flights.map((item: any) => {
-        return item.flight;
-      });
-      ////////////////////////////////////////////sort
-      form.sort === "1"
-        ? (res = _sortby(res, [
-            function (item) {
-              return Number(item.price.passengerPrices[0].total.amount);
-            },
-          ]))
-        : form.sort === "2"
-        ? (res = _sortby(res, [
-            function (item) {
-              return Number(item.price.passengerPrices[0].total.amount);
-            },
-          ]).reverse())
-        : (res = _sortby(res, [
-            function (item) {
-              return item.legs[0].duration + item.legs[1].duration;
-            },
-          ]));
-      ////////////////////////////////////////////////filter
-      if (form.filter.length > 0) {
-        res = res.filter((item: any) => {
-          let sum = item.legs[0].segments.length + item.legs[1].segments.length;
-
-          if (
-            [...form.filter].includes("1") &&
-            ![...form.filter].includes("2")
-          ) {
-            return sum > 2 && sum < 4 ? item : null;
-          } else if (
-            [...form.filter].includes("2") &&
-            ![...form.filter].includes("1")
-          ) {
-            return sum < 3 && sum < 4 ? item : null;
-          } else {
-            return sum < 4 ? item : null;
-          }
-        });
-      }
-      ///////////////////////////////////air
-      if (form.air.length > 0) {
-        res = res.filter((item: any) => {
-          return [...form.air].includes(item.carrier.caption) ? item : null;
-        });
-      }
-      /////////////////////////////////////////price
-
-      if (form.priceA || form.priceB) {
-        res = res.filter((item: any) => {
-          return Number(item.price.total.amount) < (form.priceB || inflate) &&
-            Number(item.price.total.amount) > (form.priceA || 0)
-            ? item
-            : null;
-        });
-      }
-
-      ////////////////////////////////
-
-      setCards(res.slice(0, numeric));
-    }
-  }, [items, numeric, form]);
-
-  // console.log(cards);
 
   if (cards) {
     return (

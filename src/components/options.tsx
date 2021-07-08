@@ -1,16 +1,19 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { IForm } from "../app";
+import { IForm, defaultForm } from "../app";
 import { Content, Sort, Filter, Price, Air } from "../style/options_style";
 
 interface IProps {
   airItems: string[] | null;
   setForm: React.Dispatch<React.SetStateAction<IForm>>;
+  form: IForm;
 }
 
-const Options: FC<IProps> = ({ airItems, setForm }) => {
-  const { register, watch, handleSubmit } = useForm<IForm>();
+const Options: FC<IProps> = ({ airItems, setForm, form }) => {
+  const { register, handleSubmit, reset } = useForm<IForm>();
+
+  console.log(form);
 
   if (airItems) {
     return (
@@ -67,6 +70,12 @@ const Options: FC<IProps> = ({ airItems, setForm }) => {
               id="priceA"
             />
           </label>
+          <br />
+          <div onClick={handleSubmit(() => setForm(defaultForm))}>
+            <button type="button" onClick={() => reset()}>
+              1
+            </button>
+          </div>
           <br />
           <label htmlFor="priceB">
             <span>До </span>
