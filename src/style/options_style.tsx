@@ -35,8 +35,40 @@ export const Price = styled.div`
 export const Air = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 11px;
+
   input {
     margin-top: 8px;
+  }
+`;
+
+export const AirItem = styled.span<{ active: boolean }>`
+  font-size: 9px;
+  text-align: center;
+  color: ${(props) => (props.active ? "black" : "rgb(128, 128, 128, 0.8)")};
+`;
+
+export const Buttons = styled.div`
+  min-height: 30px;
+  display: flex;
+  justify-content: space-around;
+  background: #dd3e54;
+  background: -webkit-linear-gradient(to right, #dd3e54, #6be585);
+  background: linear-gradient(to right, #dd3e54, #6be585);
+  max-width: 135px;
+  margin-left: 20px;
+
+  button {
+    background: transparent;
+    flex: 50%;
+    text-align: center;
+
+    :hover i {
+      opacity: 1;
+    }
+  }
+  i {
+    transition: all 0.5s ease-out;
+    opacity: 0;
+    color: #f9f9fd;
   }
 `;

@@ -2,7 +2,15 @@ import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { IForm, defaultForm } from "../app";
-import { Content, Sort, Filter, Price, Air } from "../style/options_style";
+import {
+  Content,
+  Sort,
+  Filter,
+  Price,
+  Air,
+  AirItem,
+  Buttons,
+} from "../style/options_style";
 
 interface IProps {
   airItems: string[] | null;
@@ -11,9 +19,10 @@ interface IProps {
 }
 
 const Options: FC<IProps> = ({ airItems, setForm, form }) => {
-  const { register, handleSubmit, reset } = useForm<IForm>();
+  const { register, handleSubmit, watch, reset } = useForm<IForm>();
 
   console.log(form);
+  console.log(watch());
 
   if (airItems) {
     return (
@@ -70,13 +79,19 @@ const Options: FC<IProps> = ({ airItems, setForm, form }) => {
               id="priceA"
             />
           </label>
-          <br />
-          <div onClick={handleSubmit(() => setForm(defaultForm))}>
-            <button type="button" onClick={() => reset()}>
-              1
+
+          <Buttons>
+            <button onClick={handleSubmit(() => setForm(defaultForm))}>
+              <i
+                className="fas fa-times"
+                onClick={() => reset(defaultForm)}
+              ></i>
             </button>
-          </div>
-          <br />
+            <button type="submit">
+              <i className="fas fa-check"></i>
+            </button>
+          </Buttons>
+
           <label htmlFor="priceB">
             <span>До </span>
             <input
@@ -97,12 +112,14 @@ const Options: FC<IProps> = ({ airItems, setForm, form }) => {
                   value={item}
                   id={item}
                 />{" "}
-                - <span>{item}</span>
+                -{" "}
+                <AirItem active={[...form.air].includes(item) ? true : false}>
+                  {item}
+                </AirItem>
               </label>
             );
           })}
         </Air>
-        <input type="submit" />
       </Content>
     );
   } else {
