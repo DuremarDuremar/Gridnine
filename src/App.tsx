@@ -7,10 +7,10 @@ import { Global, Content } from "./style/app_style";
 
 export type IForm = {
   sort: string;
-  filter: string[] | null[];
-  priceA: number | null;
-  priceB: number | null;
-  air: string[] | null[];
+  filter: string[];
+  priceA: number;
+  priceB: number;
+  air: string[];
 };
 
 export const defaultForm = {

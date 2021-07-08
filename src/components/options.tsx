@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 
 import { IForm, defaultForm } from "../app";
@@ -112,10 +112,7 @@ const Options: FC<IProps> = ({ airItems, setForm, form }) => {
                   value={item}
                   id={item}
                 />{" "}
-                -{" "}
-                <AirItem active={[...form.air].includes(item) ? true : false}>
-                  {item}
-                </AirItem>
+                - <AirItem>{item}</AirItem>
               </label>
             );
           })}

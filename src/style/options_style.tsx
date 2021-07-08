@@ -24,6 +24,7 @@ export const Price = styled.div`
   span {
     width: 20px;
     display: inline-block;
+    font-size: 10px;
   }
   input {
     border: 1px solid rgb(0, 0, 0, 0.5);
@@ -41,10 +42,9 @@ export const Air = styled.div`
   }
 `;
 
-export const AirItem = styled.span<{ active: boolean }>`
+export const AirItem = styled.span`
   font-size: 9px;
   text-align: center;
-  color: ${(props) => (props.active ? "black" : "rgb(128, 128, 128, 0.8)")};
 `;
 
 export const Buttons = styled.div`
