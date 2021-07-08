@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 
+import Spinner from "./spinner";
 import { IForm, defaultForm } from "../app";
 import {
   Content,
@@ -120,7 +121,7 @@ const Options: FC<IProps> = ({ airItems, setForm, form }) => {
       </Content>
     );
   } else {
-    return <p>44</p>;
+    return <Spinner />;
   }
 };
 

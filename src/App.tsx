@@ -32,7 +32,9 @@ const App: FC = () => {
 
   useEffect(() => {
     dataServer.getServer().then((data: any) => {
-      setItems(data.result);
+      setTimeout(() => {
+        setItems(data.result);
+      }, 500);
     });
   }, []);
 

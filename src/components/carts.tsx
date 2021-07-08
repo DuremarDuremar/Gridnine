@@ -14,6 +14,7 @@ import {
   More,
 } from "../style/carts_style";
 import { air } from "../assets/svg";
+import Spinner from "./spinner";
 
 interface IProps {
   cards: any;
@@ -166,7 +167,7 @@ const Carts: FC<IProps> = ({ cards, setNumeric }) => {
       </Content>
     );
   } else {
-    return <p>44</p>;
+    return <Spinner />;
   }
 };
 
