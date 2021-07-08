@@ -5,8 +5,14 @@ export const Content = styled.div`
   background-color: #f9f9fd;
 `;
 
+export const Cards = styled.div``;
+
 export const Card = styled.div`
-  border: 1px solid black;
+  transition: all 0.8s ease-out;
+  :hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+
   :not(:first-child) {
     margin-top: 10px;
   }
@@ -51,12 +57,11 @@ export const Info = styled.div`
   }
 `;
 
-export const Top = styled.div``;
-
 export const Transfer = styled.div`
   display: flex;
   justify-content: center;
   padding: 0 10%;
+  min-height: 15px;
 
   h4 {
     flex: 20%;
@@ -92,6 +97,26 @@ export const Sity = styled.div`
   margin-top: 8px;
 `;
 
-export const Bottom = styled.div``;
+export const Button = styled.button`
+  background-color: #f37335;
+  width: 100%;
+  min-height: 30px;
+  color: #f9f9fd;
+  margin-top: 10px;
+`;
 
-export const Button = styled.button``;
+export const More = styled.button`
+  display: block;
+  margin: 15px auto 0;
+  border: 1px solid black;
+  max-width: 140px;
+  min-height: 20px;
+  font-size: 12px;
+  width: 100%;
+  transition: all 1s ease-out;
+  :hover {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    border-radius: 7px;
+    font-size: 11px;
+  }
+`;

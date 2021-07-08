@@ -24,6 +24,8 @@ const App: FC = () => {
     sort: "1",
   });
 
+  console.log(form);
+
   useEffect(() => {
     dataServer.getServer().then((data: any) => {
       setItems(data.result);

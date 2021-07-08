@@ -5,16 +5,16 @@ import _map from "lodash.map";
 
 import {
   Content,
+  Cards,
   Card,
   Title,
   Button,
   Info,
   Logo,
-  Top,
-  Bottom,
   Time,
   Transfer,
   Sity,
+  More,
 } from "../style/carts_style";
 import { IForm } from "../app";
 import { air } from "../assets/svg";
@@ -26,9 +26,9 @@ interface IProps {
 
 const Carts: FC<IProps> = ({ items, form }) => {
   const [cards, setCards] = useState<any | null>(null);
-  const [pag, setPag] = useState<number>(0);
+  const [numeric, setNumeric] = useState<number>(2);
 
-  // console.log(form);
+  console.log(form.sort);
 
   const getTimeFromMins = (mins: number) => {
     let hours = Math.trunc(mins / 60);
@@ -38,73 +38,107 @@ const Carts: FC<IProps> = ({ items, form }) => {
 
   useEffect(() => {
     if (items) {
-      const res = items.flights.map((item: any) => {
+      let res = items.flights.map((item: any) => {
         return item.flight;
       });
 
-      setCards(_chunk(res, 6));
+      if (form.sort === "1") {
+        res = _sortby(res, [
+          function (item) {
+            return Number(item.price.passengerPrices[0].total.amount);
+          },
+        ]);
+      } else if (form.sort === "2") {
+        res = _sortby(res, [
+          function (item) {
+            return Number(item.price.passengerPrices[0].total.amount);
+          },
+        ]).reverse();
+      }
+
+      setCards(res.slice(0, numeric));
     }
-  }, [items]);
+  }, [items, numeric, form]);
 
   console.log(cards);
-
-  if (items) {
-    // console.log("bestPrices", items.bestPrices.ONE_CONNECTION.bestFlights);
-    // console.log("flights", items.flights);
-    // const res = items.flights.map((item: any) => {
-    //   return item.flight.price.passengerPrices[0].feeAndTaxes;
-    // });
-    // console.log(res);
-    // console.log(sortby(res, ["amount"]));
-  }
 
   if (cards) {
     return (
       <Content>
-        {cards[pag].map((item: any, index: number) => {
-          let date = (d: string) => {
-            const res = [new Date(d)].toString().split("G");
-            return res[0].slice(0, -4).split("2020");
-          };
+        <Cards>
+          {cards.map((item: any, index: number) => {
+            let date = (d: string) => {
+              const res = [new Date(d)].toString().split("G");
 
-          return (
-            <Card key={index}>
-              <Title>
-                <Logo>{air}</Logo>
-                <div>
-                  <h5>
-                    {parseInt(item.price.passengerPrices[0].total.amount)}{" "}
-                    &#8381;
-                  </h5>
-                  <p>Стоимость для одного взрослого пассажира</p>
-                </div>
-              </Title>
-              <Info>
-                <Top>
+              return res[0]
+                .replace(/Tue/gi, "ср")
+                .replace(/Aug/gi, "авг.")
+                .replace(/Wed/gi, "чт")
+                .replace(/Thu/gi, "пят")
+                .slice(0, -4)
+                .split("2020");
+            };
+
+            const info = (n: boolean) => {
+              let segment =
+                item.legs[`${n ? 0 : 1}`].segments.length > 1 ? 1 : 0;
+
+              return (
+                <Info>
                   <Sity>
                     <span>
-                      {item.legs[0].segments[0].departureCity.caption},{" "}
-                      {item.legs[0].segments[0].departureAirport.caption}
+                      {
+                        item.legs[`${n ? 0 : 1}`].segments[0].departureCity
+                          .caption
+                      }
+                      ,{" "}
+                      {
+                        item.legs[`${n ? 0 : 1}`].segments[0].departureAirport
+                          .caption
+                      }
                       <strong>
                         {" "}
-                        ({item.legs[0].segments[0].departureAirport.uid})
+                        (
+                        {
+                          item.legs[`${n ? 0 : 1}`].segments[0].departureAirport
+                            .uid
+                        }
+                        )
                       </strong>
                     </span>
                     <i className="fas fa-long-arrow-alt-right"></i>{" "}
                     <span>
-                      {item.legs[0].segments[1].arrivalCity.caption},{" "}
-                      {item.legs[0].segments[1].arrivalAirport.caption}
+                      {
+                        item.legs[`${n ? 0 : 1}`].segments[segment].arrivalCity
+                          .caption
+                      }
+                      ,{" "}
+                      {
+                        item.legs[`${n ? 0 : 1}`].segments[segment]
+                          .arrivalAirport.caption
+                      }
                       <strong>
                         {" "}
-                        ({item.legs[0].segments[1].arrivalAirport.uid})
+                        (
+                        {
+                          item.legs[`${n ? 0 : 1}`].segments[segment]
+                            .arrivalAirport.uid
+                        }
+                        )
                       </strong>
                     </span>
                   </Sity>
                   <Time>
                     <span>
-                      {date(item.legs[0].segments[0].departureDate)[1]}
+                      {
+                        date(
+                          item.legs[`${n ? 0 : 1}`].segments[0].departureDate
+                        )[1]
+                      }
                       <strong>
-                        {date(item.legs[0].segments[0].departureDate)[0]
+                        {date(
+                          item.legs[`${n ? 0 : 1}`].segments[0].departureDate
+                        )[0]
                           .split(" ")
                           .reverse()
                           .join(" ")}
@@ -113,31 +147,59 @@ const Carts: FC<IProps> = ({ items, form }) => {
                     <span>
                       {" "}
                       <i className="far fa-clock"></i>{" "}
-                      {getTimeFromMins(item.legs[0].duration)}
+                      {getTimeFromMins(item.legs[`${n ? 0 : 1}`].duration)}
                     </span>{" "}
                     <span>
                       <strong>
-                        {date(item.legs[0].segments[1].arrivalDate)[0]
+                        {date(
+                          item.legs[`${n ? 0 : 1}`].segments[segment]
+                            .arrivalDate
+                        )[0]
                           .split(" ")
                           .reverse()
                           .join(" ")}
                       </strong>
-                      {date(item.legs[0].segments[1].arrivalDate)[1]}
+                      {
+                        date(
+                          item.legs[`${n ? 0 : 1}`].segments[segment]
+                            .arrivalDate
+                        )[1]
+                      }
                     </span>
                   </Time>
                   <Transfer>
                     <span></span>
-                    <h4>1 пересадка</h4>
+                    {segment ? <h4>1 пересадка</h4> : null}
                     <span></span>
                   </Transfer>
-                  <h3>Рейс выполняет</h3>
-                </Top>
-                <Bottom></Bottom>
-              </Info>
-              <Button>2</Button>
-            </Card>
-          );
-        })}
+                  <h3>
+                    Рейс выполняет:{" "}
+                    {item.legs[`${n ? 0 : 1}`].segments[0].airline.caption}
+                  </h3>
+                </Info>
+              );
+            };
+
+            return (
+              <Card key={index}>
+                <Title>
+                  <Logo>{air}</Logo>
+                  <div>
+                    <h5>
+                      {parseInt(item.price.passengerPrices[0].total.amount)}{" "}
+                      &#8381;
+                    </h5>
+                    <p>Стоимость для одного взрослого пассажира</p>
+                  </div>
+                </Title>
+                {info(true)}
+                {info(false)}
+                <Button>Выбрать</Button>
+              </Card>
+            );
+          })}
+        </Cards>
+        <More onClick={() => setNumeric((prev) => prev + 2)}>Показать еще</More>
       </Content>
     );
   } else {
