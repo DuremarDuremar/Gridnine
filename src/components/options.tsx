@@ -22,21 +22,27 @@ interface IProps {
 
 const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
   const { register, handleSubmit, watch, reset } = useForm<IForm>({
-    defaultValues: defaultForm,
+    defaultValues: form,
   });
-
-  const watchFilter = watch("filter", []);
-  const watcAir = watch("air", []);
 
   console.log("form", form);
   console.log("watch", watch());
 
+  const airFilter = (name: string) => {
+    form.air.includes(name)
+      ? setForm({
+          ...form,
+          air: [...form.air.filter((item) => item !== name)],
+        })
+      : setForm({ ...form, air: [...form.air, name] });
+  };
+
   if (airItems) {
     return (
-      <Content onSubmit={handleSubmit((data) => setForm(data))}>
+      <Content onSubmit={handleSubmit((data: IForm) => setForm(data))}>
         <Sort>
           <h2>Сортировать</h2>
-          <label htmlFor="up">
+          <label htmlFor="up" onClick={() => setForm({ ...form, sort: "1" })}>
             <input
               type="radio"
               {...register("sort")}
@@ -46,18 +52,28 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
             />{" "}
             - <span>по возрастанию цены</span>
           </label>
-          <label htmlFor="down">
+          <label htmlFor="down" onClick={() => setForm({ ...form, sort: "2" })}>
             <input type="radio" {...register("sort")} id="down" value="2" /> -{" "}
             <span>по убыванию цены</span>
           </label>
-          <label htmlFor="time">
+          <label htmlFor="time" onClick={() => setForm({ ...form, sort: "3" })}>
             <input type="radio" {...register("sort")} id="time" value="3" /> -{" "}
             <span>по времени в пути</span>
           </label>
         </Sort>
         <Filter>
           <h2>Фильтровать</h2>
-          <label htmlFor="true">
+          <label
+            htmlFor="true"
+            onClick={() => {
+              form.filter.includes("1")
+                ? setForm({
+                    ...form,
+                    filter: [...form.filter.filter((item) => item !== "1")],
+                  })
+                : setForm({ ...form, filter: [...form.filter, "1"] });
+            }}
+          >
             <input
               type="checkbox"
               {...register("filter")}
@@ -66,7 +82,17 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
             />{" "}
             - <span>1 пересадка</span>
           </label>
-          <label htmlFor="false">
+          <label
+            htmlFor="false"
+            onClick={() => {
+              form.filter.includes("2")
+                ? setForm({
+                    ...form,
+                    filter: [...form.filter.filter((item) => item !== "2")],
+                  })
+                : setForm({ ...form, filter: [...form.filter, "2"] });
+            }}
+          >
             <input
               type="checkbox"
               {...register("filter")}
@@ -91,7 +117,7 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
               <i
                 className="fas fa-times"
                 onClick={() => {
-                  reset(defaultForm);
+                  reset({ ...form, priceA: NaN, priceB: NaN });
                   setNumeric(2);
                 }}
               ></i>
@@ -112,7 +138,7 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
           <h2>Авиакомпании</h2>
           {airItems?.map((item, index) => {
             return (
-              <label key={index} htmlFor={item}>
+              <label key={index} htmlFor={item} onClick={() => airFilter(item)}>
                 <input
                   type="checkbox"
                   {...register("air")}
