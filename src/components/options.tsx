@@ -21,10 +21,15 @@ interface IProps {
 }
 
 const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
-  const { register, handleSubmit, watch, reset } = useForm<IForm>();
+  const { register, handleSubmit, watch, reset } = useForm<IForm>({
+    defaultValues: defaultForm,
+  });
 
-  // console.log(form);
-  // console.log(watch());
+  const watchFilter = watch("filter", []);
+  const watcAir = watch("air", []);
+
+  console.log("form", form);
+  console.log("watch", watch());
 
   if (airItems) {
     return (
