@@ -51,47 +51,59 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
       <Content onSubmit={handleSubmit((data: IForm) => setForm(data))}>
         <Sort>
           <h2>Сортировать</h2>
-          <label htmlFor="up" onClick={() => setForm({ ...form, sort: "1" })}>
+          <label htmlFor="up">
             <input
               type="radio"
               {...register("sort")}
               id="up"
               value="1"
+              onClick={() => setForm({ ...form, sort: "1" })}
               defaultChecked
             />{" "}
             - <span>по возрастанию цены</span>
           </label>
-          <label htmlFor="down" onClick={() => setForm({ ...form, sort: "2" })}>
-            <input type="radio" {...register("sort")} id="down" value="2" /> -{" "}
-            <span>по убыванию цены</span>
+          <label htmlFor="down">
+            <input
+              type="radio"
+              {...register("sort")}
+              id="down"
+              value="2"
+              onClick={() => setForm({ ...form, sort: "2" })}
+            />{" "}
+            - <span>по убыванию цены</span>
           </label>
-          <label htmlFor="time" onClick={() => setForm({ ...form, sort: "3" })}>
-            <input type="radio" {...register("sort")} id="time" value="3" /> -{" "}
-            <span>по времени в пути1</span>
+          <label htmlFor="time">
+            <input
+              type="radio"
+              {...register("sort")}
+              id="time"
+              value="3"
+              onClick={() => setForm({ ...form, sort: "3" })}
+            />{" "}
+            - <span>по времени в пути</span>
           </label>
         </Sort>
         <Filter>
           <h2>Фильтровать</h2>
-          <label htmlFor="true" onClick={() => filterFilter("1")}>
+          <label htmlFor="true">
             <input
               type="checkbox"
               {...register("filter")}
               id="true"
               value="1"
+              onClick={() => filterFilter("1")}
             />{" "}
             - <span>1 пересадка</span>
           </label>
-          <label
-            htmlFor="false"
-            onClick={() => {
-              filterFilter("2");
-            }}
-          >
+          <label htmlFor="false">
             <input
               type="checkbox"
               {...register("filter")}
               id="false"
               value="2"
+              onClick={() => {
+                filterFilter("2");
+              }}
             />{" "}
             - <span>без пересадок</span>
           </label>
@@ -132,12 +144,13 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
           <h2>Авиакомпании</h2>
           {airItems?.map((item, index) => {
             return (
-              <label key={index} htmlFor={item} onClick={() => airFilter(item)}>
+              <label key={index} htmlFor={item}>
                 <input
                   type="checkbox"
                   {...register("air")}
                   value={item}
                   id={item}
+                  onClick={() => airFilter(item)}
                 />{" "}
                 - <AirItem>{item}</AirItem>
               </label>
