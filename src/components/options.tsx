@@ -21,12 +21,12 @@ interface IProps {
 }
 
 const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
-  const { register, handleSubmit, watch, reset } = useForm<IForm>({
+  const { register, handleSubmit, reset } = useForm<IForm>({
     defaultValues: form,
   });
 
-  console.log("form", form);
-  console.log("watch", watch());
+  // console.log("form", form);
+  // console.log("watch", watch());
 
   const airFilter = (name: string) => {
     form.air.includes(name)
@@ -35,6 +35,15 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
           air: [...form.air.filter((item) => item !== name)],
         })
       : setForm({ ...form, air: [...form.air, name] });
+  };
+
+  const filterFilter = (opt: string) => {
+    form.filter.includes(opt)
+      ? setForm({
+          ...form,
+          filter: [...form.filter.filter((item) => item !== opt)],
+        })
+      : setForm({ ...form, filter: [...form.filter, opt] });
   };
 
   if (airItems) {
@@ -58,22 +67,12 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
           </label>
           <label htmlFor="time" onClick={() => setForm({ ...form, sort: "3" })}>
             <input type="radio" {...register("sort")} id="time" value="3" /> -{" "}
-            <span>по времени в пути</span>
+            <span>по времени в пути1</span>
           </label>
         </Sort>
         <Filter>
           <h2>Фильтровать</h2>
-          <label
-            htmlFor="true"
-            onClick={() => {
-              form.filter.includes("1")
-                ? setForm({
-                    ...form,
-                    filter: [...form.filter.filter((item) => item !== "1")],
-                  })
-                : setForm({ ...form, filter: [...form.filter, "1"] });
-            }}
-          >
+          <label htmlFor="true" onClick={() => filterFilter("1")}>
             <input
               type="checkbox"
               {...register("filter")}
@@ -85,12 +84,7 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
           <label
             htmlFor="false"
             onClick={() => {
-              form.filter.includes("2")
-                ? setForm({
-                    ...form,
-                    filter: [...form.filter.filter((item) => item !== "2")],
-                  })
-                : setForm({ ...form, filter: [...form.filter, "2"] });
+              filterFilter("2");
             }}
           >
             <input

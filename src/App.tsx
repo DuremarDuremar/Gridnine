@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
 import _sortby from "lodash.sortby";
 import Options from "./components/options";
 import Carts from "./components/carts";
@@ -26,6 +26,8 @@ const dataServer = new Server();
 const App: FC = () => {
   const [items, setItems] = useState<any>(null);
   const [airItems, setairItems] = useState<string[] | null>(null);
+  const [arrayFilter, setArrayFilter] = useState<any>(null);
+  const [filterAir, setFilterAir] = useState<string[] | null>(null);
   const [form, setForm] = useState<IForm>(defaultForm);
   const [cards, setCards] = useState<any | null>(null);
   const [numeric, setNumeric] = useState<number>(2);
@@ -93,6 +95,7 @@ const App: FC = () => {
           }
         });
       }
+      setArrayFilter(res);
       ///////////////////////////////////air
       if (form.air.length > 0) {
         res = res.filter((item: any) => {
@@ -116,31 +119,25 @@ const App: FC = () => {
     }
   }, [items, numeric, form]);
 
-  // useEffect(() => {
-  //   if (cards ) {
-
-  //     setairItems((prev) =>
-  //       prev
-  //         ? prev.filter((item: any) => {
-  //             return [
-  //               ...cards.map((item: any) => {
-  //                 return item.carrier.caption;
-  //               }),
-  //             ].includes(item)
-  //               ? item
-  //               : null;
-  //           })
-  //         : prev
-  //     );
-  //   }
-  // }, [cards]);
+  useEffect(() => {
+    if (airItems) {
+      let res = airItems.filter((item) => {
+        return [
+          ...arrayFilter.map((item: any) => item.carrier.caption),
+        ].includes(item)
+          ? item
+          : null;
+      });
+      setFilterAir(res);
+    }
+  }, [arrayFilter, airItems]);
 
   return (
     <>
       <Global />
       <Content>
         <Options
-          airItems={airItems}
+          airItems={filterAir || airItems}
           setForm={setForm}
           form={form}
           setNumeric={setNumeric}
