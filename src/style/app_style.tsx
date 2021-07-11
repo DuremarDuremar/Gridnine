@@ -56,4 +56,12 @@ export const Content = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
   padding: 10px;
+  position: relative;
+`;
+
+export const Up = styled.i`
+  position: fixed;
+  bottom: 40px;
+  color: #f37335;
+  cursor: pointer;
 `;

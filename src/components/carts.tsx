@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { animateScroll as scroll } from "react-scroll";
 
 import {
   Content,
@@ -165,7 +166,12 @@ const Carts: FC<IProps> = ({ cards, setNumeric, numeric }) => {
           })}
         </Cards>
         {numeric <= cards.length && (
-          <More onClick={() => setNumeric((prev) => prev + 2)}>
+          <More
+            onClick={() => {
+              setNumeric((prev) => prev + 2);
+              scroll.scrollToBottom();
+            }}
+          >
             Показать еще
           </More>
         )}

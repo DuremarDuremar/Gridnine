@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Content = styled.form`
   h2 {
+    margin-top: 8px;
     font-size: 14px;
   }
   span {
@@ -21,6 +22,16 @@ export const Content = styled.form`
 export const Sort = styled.div``;
 export const Filter = styled.div``;
 export const Price = styled.div`
+  label {
+    display: flex;
+    margin-top: 10px;
+  }
+
+  p {
+    width: 20px;
+    font-size: 13px;
+  }
+
   input {
     border: 1px solid rgb(0, 0, 0, 0.5);
     max-width: 130px;
@@ -40,30 +51,4 @@ export const Air = styled.div`
 export const AirItem = styled.span`
   font-size: 9px;
   text-align: center;
-`;
-
-export const Buttons = styled.div`
-  min-height: 30px;
-  display: flex;
-  justify-content: space-around;
-  background: #dd3e54;
-  background: -webkit-linear-gradient(to right, #dd3e54, #6be585);
-  background: linear-gradient(to right, #dd3e54, #6be585);
-  max-width: 135px;
-  border: 1px solid black;
-
-  button {
-    background: transparent;
-    flex: 50%;
-    text-align: center;
-
-    :hover i {
-      opacity: 1;
-    }
-  }
-  i {
-    transition: all 0.5s ease-out;
-    opacity: 0;
-    color: #f9f9fd;
-  }
 `;

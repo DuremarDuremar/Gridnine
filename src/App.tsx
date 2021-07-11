@@ -1,9 +1,11 @@
 import React, { FC, useState, useEffect } from "react";
 import _sortby from "lodash.sortby";
+import { animateScroll as scroll } from "react-scroll";
+
 import Options from "./components/options";
 import Carts from "./components/carts";
 import Server from "./data/axios";
-import { Global, Content } from "./style/app_style";
+import { Global, Content, Up } from "./style/app_style";
 
 export type IForm = {
   sort: string;
@@ -151,6 +153,15 @@ const App: FC = () => {
           setNumeric={setNumeric}
           numeric={numeric}
         />
+        {numeric > 4 && (
+          <Up
+            onClick={() => {
+              scroll.scrollToTop();
+              setTimeout(() => setNumeric(2), 1500);
+            }}
+            className="far fa-arrow-alt-circle-up fa-4x"
+          />
+        )}
       </Content>
     </>
   );

@@ -1,9 +1,8 @@
 import React, { FC } from "react";
-import { useForm } from "react-hook-form";
 import { useDebouncedCallback } from "use-debounce";
 
 import Spinner from "./spinner";
-import { IForm, defaultForm } from "../app";
+import { IForm } from "../app";
 import {
   Content,
   Sort,
@@ -11,7 +10,6 @@ import {
   Price,
   Air,
   AirItem,
-  Buttons,
 } from "../style/options_style";
 
 interface IProps {
@@ -21,14 +19,7 @@ interface IProps {
   setNumeric: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
-  const { register, handleSubmit, reset } = useForm<IForm>({
-    defaultValues: form,
-  });
-
-  // const [priceA, setpriceA] = useState<number | null>(null);
-  // const [priceB, setpriceB] = useState<number | null>(null);
-
+const Options: FC<IProps> = ({ airItems, setForm, form }) => {
   const debouncedA = useDebouncedCallback((priceA) => {
     if (priceA) {
       setForm({ ...form, priceA: priceA });
@@ -68,16 +59,16 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
 
   if (airItems) {
     return (
-      <Content onSubmit={handleSubmit((data: IForm) => setForm(data))}>
+      <Content>
         <Sort>
           <h2>Сортировать</h2>
           <label htmlFor="up">
             <input
               type="radio"
-              {...register("sort")}
               id="up"
               value="1"
               onClick={() => setForm({ ...form, sort: "1" })}
+              name="sort"
               defaultChecked
             />{" "}
             - <span>по возрастанию цены</span>
@@ -85,20 +76,20 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
           <label htmlFor="down">
             <input
               type="radio"
-              {...register("sort")}
               id="down"
               value="2"
               onClick={() => setForm({ ...form, sort: "2" })}
+              name="sort"
             />{" "}
             - <span>по убыванию цены</span>
           </label>
           <label htmlFor="time">
             <input
               type="radio"
-              {...register("sort")}
               id="time"
               value="3"
               onClick={() => setForm({ ...form, sort: "3" })}
+              name="sort"
             />{" "}
             - <span>по времени в пути</span>
           </label>
@@ -108,7 +99,6 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
           <label htmlFor="true">
             <input
               type="checkbox"
-              {...register("filter")}
               id="true"
               value="1"
               onClick={() => filterFilter("1")}
@@ -118,7 +108,6 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
           <label htmlFor="false">
             <input
               type="checkbox"
-              {...register("filter")}
               id="false"
               value="2"
               onClick={() => {
@@ -130,37 +119,23 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
         </Filter>
         <Price>
           <h2>Цена</h2>
+          <label htmlFor="priceA">
+            <p>от</p>{" "}
+            <input
+              type="number"
+              id="priceA"
+              onChange={(e) => debouncedA(Number(e.target.value))}
+            />
+          </label>
 
-          <input
-            type="number"
-            {...register("priceA", { valueAsNumber: true })}
-            id="priceA"
-            placeholder="от"
-            onChange={(e) => debouncedA(Number(e.target.value))}
-          />
-
-          <Buttons>
-            <button onClick={handleSubmit(() => setForm(defaultForm))}>
-              <i
-                className="fas fa-times"
-                onClick={() => {
-                  reset({ ...form, priceA: NaN, priceB: NaN });
-                  setNumeric(2);
-                }}
-              ></i>
-            </button>
-            <button type="submit">
-              <i className="fas fa-check"></i>
-            </button>
-          </Buttons>
-
-          <input
-            type="number"
-            {...register("priceB", { valueAsNumber: true })}
-            id="priceB"
-            placeholder="до"
-            onChange={(e) => debouncedB(Number(e.target.value))}
-          />
+          <label htmlFor="priceB">
+            <p>до</p>{" "}
+            <input
+              type="number"
+              id="priceB"
+              onChange={(e) => debouncedB(Number(e.target.value))}
+            />
+          </label>
         </Price>
         <Air>
           <h2>Авиакомпании</h2>
@@ -169,7 +144,6 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
               <label key={index} htmlFor={item}>
                 <input
                   type="checkbox"
-                  {...register("air")}
                   value={item}
                   id={item}
                   onClick={() => airFilter(item)}
