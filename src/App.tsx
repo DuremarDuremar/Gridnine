@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useCallback } from "react";
+import React, { FC, useState, useEffect } from "react";
 import _sortby from "lodash.sortby";
 import Options from "./components/options";
 import Carts from "./components/carts";
@@ -26,7 +26,7 @@ const dataServer = new Server();
 const App: FC = () => {
   const [items, setItems] = useState<any>(null);
   const [airItems, setairItems] = useState<string[] | null>(null);
-  const [arrayFilter, setArrayFilter] = useState<any>(null);
+  const [arrayFilter, setArrayFilter] = useState<any>(null); // для фасетной фильтрации
   const [filterAir, setFilterAir] = useState<string[] | null>(null);
   const [form, setForm] = useState<IForm>(defaultForm);
   const [cards, setCards] = useState<any | null>(null);
@@ -95,14 +95,8 @@ const App: FC = () => {
           }
         });
       }
-      setArrayFilter(res);
+
       ///////////////////////////////////air
-      if (form.air.length > 0) {
-        res = res.filter((item: any) => {
-          return [...form.air].includes(item.carrier.caption) ? item : null;
-        });
-      }
-      /////////////////////////////////////////price
 
       if (form.priceA || form.priceB) {
         res = res.filter((item: any) => {
@@ -110,6 +104,15 @@ const App: FC = () => {
             Number(item.price.total.amount) > (form.priceA || 0)
             ? item
             : null;
+        });
+      }
+
+      setArrayFilter(res); // фасетная фильтрация
+      /////////////////////////////////////////price
+
+      if (form.air.length > 0) {
+        res = res.filter((item: any) => {
+          return [...form.air].includes(item.carrier.caption) ? item : null;
         });
       }
 
@@ -131,6 +134,7 @@ const App: FC = () => {
       setFilterAir(res);
     }
   }, [arrayFilter, airItems]);
+  //////////////фасетная фильтрация
 
   return (
     <>

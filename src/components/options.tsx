@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
+import { useDebouncedCallback } from "use-debounce";
 
 import Spinner from "./spinner";
 import { IForm, defaultForm } from "../app";
@@ -24,6 +25,25 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
   const { register, handleSubmit, reset } = useForm<IForm>({
     defaultValues: form,
   });
+
+  // const [priceA, setpriceA] = useState<number | null>(null);
+  // const [priceB, setpriceB] = useState<number | null>(null);
+
+  const debouncedA = useDebouncedCallback((priceA) => {
+    if (priceA) {
+      setForm({ ...form, priceA: priceA });
+    } else {
+      setForm({ ...form, priceA: 0 });
+    }
+  }, 1000);
+
+  const debouncedB = useDebouncedCallback((priceB) => {
+    if (priceB) {
+      setForm({ ...form, priceB: priceB });
+    } else {
+      setForm({ ...form, priceB: Infinity });
+    }
+  }, 1000);
 
   // console.log("form", form);
   // console.log("watch", watch());
@@ -116,6 +136,7 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
             {...register("priceA", { valueAsNumber: true })}
             id="priceA"
             placeholder="от"
+            onChange={(e) => debouncedA(Number(e.target.value))}
           />
 
           <Buttons>
@@ -138,6 +159,7 @@ const Options: FC<IProps> = ({ airItems, setForm, form, setNumeric }) => {
             {...register("priceB", { valueAsNumber: true })}
             id="priceB"
             placeholder="до"
+            onChange={(e) => debouncedB(Number(e.target.value))}
           />
         </Price>
         <Air>
