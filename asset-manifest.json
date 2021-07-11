@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/Gridnine/static/js/main.ca0854be.chunk.js",
-    "main.js.map": "/Gridnine/static/js/main.ca0854be.chunk.js.map",
+    "main.js": "/Gridnine/static/js/main.bdd0eefe.chunk.js",
+    "main.js.map": "/Gridnine/static/js/main.bdd0eefe.chunk.js.map",
     "runtime-main.js": "/Gridnine/static/js/runtime-main.83693b9d.js",
     "runtime-main.js.map": "/Gridnine/static/js/runtime-main.83693b9d.js.map",
-    "static/js/2.e0328ff7.chunk.js": "/Gridnine/static/js/2.e0328ff7.chunk.js",
-    "static/js/2.e0328ff7.chunk.js.map": "/Gridnine/static/js/2.e0328ff7.chunk.js.map",
+    "static/js/2.4bfec7d7.chunk.js": "/Gridnine/static/js/2.4bfec7d7.chunk.js",
+    "static/js/2.4bfec7d7.chunk.js.map": "/Gridnine/static/js/2.4bfec7d7.chunk.js.map",
     "index.html": "/Gridnine/index.html",
-    "static/js/2.e0328ff7.chunk.js.LICENSE.txt": "/Gridnine/static/js/2.e0328ff7.chunk.js.LICENSE.txt"
+    "static/js/2.4bfec7d7.chunk.js.LICENSE.txt": "/Gridnine/static/js/2.4bfec7d7.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.83693b9d.js",
-    "static/js/2.e0328ff7.chunk.js",
-    "static/js/main.ca0854be.chunk.js"
+    "static/js/2.4bfec7d7.chunk.js",
+    "static/js/main.bdd0eefe.chunk.js"
   ]
 }
